@@ -1,0 +1,11 @@
+ 
+pypiwin32; sys_platform == 'win32'  
+pyobjc; sys_platform == 'darwin' 
+python-binance
+TA-lib
+numpy
+websocket_client
+pandas
+psutils
+requestspipi
+ta
