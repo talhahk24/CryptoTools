@@ -8,4 +8,6 @@ dependencies = [
     "pydantic>=2.11.3",
     "requests>=2.32.3",
     "ta-lib>=0.6.3",
+    "pandas>=1.4.3",
+    "websocket",
 ]

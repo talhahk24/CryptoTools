@@ -1,0 +1,3 @@
+# Binance API credentials
+API_KEY = "wPs6u2ZCn5dmwhNh36uIv3XxwsFeTYbAjyDK3RIjRKIqdKoU5XKsv10Gim6SOcuV"
+API_SECRET = "Sagf9XuAEGNyuEx3xcCCp9RMFOiEewvEBaNKeFiUXAt6TT20lVIo88jEZzf3SLF6" 
