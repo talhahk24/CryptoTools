@@ -1,0 +1,19 @@
+files:
+- api.py
+  - endpoints
+- ws_connector.py
+  - websocket connection to exchanges, using CCXT (for ease and fast prototyping)
+- models.py
+  - pydantic models for endpoints
+- options.py
+  - enum classes for pydantic models
+- strategies.py
+  - sample strategies (RSI, MACD, BolingerBands)
+  - Users may add their own strat here
+- workers.py
+  - consumers from redis streams
+    - strategy workers
+    - dashboard workers
+    - database/flatfile workers
+- producers.py
+  - ws connector producers to redis streams
