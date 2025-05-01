@@ -2,50 +2,14 @@ import numpy as np
 # import pandas as pd
 import talib as ta
 # from binance.enums import *
-from config import STRATEGY_CONFIG
+
 
 # List of available strategies
 Strategies_impl = ['RSI', 'MACD', 'Bollinger Bands', 'EMA Cross', 'Ichimoku Cloud', 'VWAP', 'Support Resistance']
 Strategy_List = ['RSI', 'MACD', 'Bollinger Bands', 'EMA Cross', 'Ichimoku Cloud', 'VWAP', 'Support Resistance']
         
-# RSI Parameters
-RSI_PERIOD = STRATEGY_CONFIG['RSI']['rsi_period']
-RSI_OVERBOUGHT = STRATEGY_CONFIG['RSI']['rsi_overbought']
-RSI_OVERSOLD = STRATEGY_CONFIG['RSI']['rsi_oversold']
-RSI_TIMEFRAME = STRATEGY_CONFIG['RSI']['rsi_timeframe']
 
-# MACD Parameters
-MACD_FAST = STRATEGY_CONFIG['MACD']['macd_fast_period']
-MACD_SLOW = STRATEGY_CONFIG['MACD']['macd_slow_period']
-MACD_SIGNAL = STRATEGY_CONFIG['MACD']['macd_signal_period']
-MACD_TIMEFRAME = STRATEGY_CONFIG['MACD']['macd_timeframe']
-
-# Bollinger Bands Parameters
-BB_PERIOD = STRATEGY_CONFIG['Bollinger Bands']['bb_period']
-BB_STD_DEV = STRATEGY_CONFIG['Bollinger Bands']['bb_std_dev']
-BB_TIMEFRAME = STRATEGY_CONFIG['Bollinger Bands']['bb_timeframe']
-
-# EMA Cross Parameters
-EMA_FAST = STRATEGY_CONFIG['EMA Cross']['ema_fast_period']
-EMA_SLOW = STRATEGY_CONFIG['EMA Cross']['ema_slow_period']
-EMA_TIMEFRAME = STRATEGY_CONFIG['EMA Cross']['ema_timeframe']
-
-# Ichimoku Cloud Parameters
-ICHIMOKU_CONVERSION_LINE_PERIOD = STRATEGY_CONFIG['Ichimoku Cloud']['ich_conversion_period']
-ICHIMOKU_BASE_LINE_PERIOD = STRATEGY_CONFIG['Ichimoku Cloud']['ich_base_period']
-ICHIMOKU_SPAN_B_PERIOD = STRATEGY_CONFIG['Ichimoku Cloud']['ich_span_b_period']
-ICHIMOKU_DISPLACEMENT = STRATEGY_CONFIG['Ichimoku Cloud']['ich_displacement']
-ICHIMOKU_TIMEFRAME = STRATEGY_CONFIG['Ichimoku Cloud']['ich_timeframe']
-
-# VWAP Parameters
-VWAP_PERIOD = STRATEGY_CONFIG['VWAP']['vwap_period']
-VWAP_TIMEFRAME = STRATEGY_CONFIG['VWAP']['vwap_timeframe']
-
-# Support/Resistance Parameters
-SR_PERIOD = STRATEGY_CONFIG['Support Resistance']['sr_period']
-SR_THRESHOLD = STRATEGY_CONFIG['Support Resistance']['sr_threshold']
-SR_TIMEFRAME = STRATEGY_CONFIG['Support Resistance']['sr_timeframe']
-def rsi_strategy(df, symbol, period=RSI_PERIOD, overbought=RSI_OVERBOUGHT, oversold=RSI_OVERSOLD):
+def rsi_strategy(df, symbol, period, overbought, oversold):
     """
     RSI Strategy: Buy when RSI is below oversold level and sell when RSI is above overbought level
     
@@ -93,7 +57,7 @@ def rsi_strategy(df, symbol, period=RSI_PERIOD, overbought=RSI_OVERBOUGHT, overs
             "indicators": {"rsi": current_rsi}
         }
 
-def macd_strategy(df, symbol, fast_period=MACD_FAST, slow_period=MACD_SLOW, signal_period=MACD_SIGNAL):
+def macd_strategy(df, symbol, fast_period, slow_period, signal_period):
     """
     MACD Strategy: Buy when MACD crosses above signal line and sell when MACD crosses below signal line
     
@@ -149,7 +113,7 @@ def macd_strategy(df, symbol, fast_period=MACD_FAST, slow_period=MACD_SLOW, sign
             "indicators": {"macd": current_macd, "signal": current_signal, "histogram": current_hist}
         }
 
-def bollinger_bands_strategy(df, symbol, period=BB_PERIOD, std_dev=BB_STD_DEV):
+def bollinger_bands_strategy(df, symbol, period, std_dev):
     """
     Bollinger Bands Strategy: Buy when price touches lower band and sell when price touches upper band
     
@@ -205,7 +169,7 @@ def bollinger_bands_strategy(df, symbol, period=BB_PERIOD, std_dev=BB_STD_DEV):
             "indicators": {"price": current_close, "upper": current_upper, "middle": current_middle, "lower": current_lower}
         }
 
-def ema_cross_strategy(df, symbol, fast_period=EMA_FAST, slow_period=EMA_SLOW):
+def ema_cross_strategy(df, symbol, fast_period, slow_period):
     """
     EMA Cross Strategy: Buy when fast EMA crosses above slow EMA and sell when fast EMA crosses below slow EMA
     
@@ -256,9 +220,9 @@ def ema_cross_strategy(df, symbol, fast_period=EMA_FAST, slow_period=EMA_SLOW):
             "indicators": {"fast_ema": current_fast, "slow_ema": current_slow}
         }
 
-def ichimoku_cloud_strategy(df, symbol, conversion_period=ICHIMOKU_CONVERSION_LINE_PERIOD, 
-                           base_period=ICHIMOKU_BASE_LINE_PERIOD, span_b_period=ICHIMOKU_SPAN_B_PERIOD, 
-                           displacement=ICHIMOKU_DISPLACEMENT):
+def ichimoku_cloud_strategy(df, symbol, conversion_period, 
+                           base_period, span_b_period, 
+                           displacement):
     """
     Ichimoku Cloud Strategy: 
     Buy when price crosses above the cloud and Tenkan-sen crosses above Kijun-sen
@@ -355,7 +319,7 @@ def ichimoku_cloud_strategy(df, symbol, conversion_period=ICHIMOKU_CONVERSION_LI
             }
         }
 
-def vwap_strategy(df, symbol, period=VWAP_PERIOD):
+def vwap_strategy(df, symbol, period):
     """
     VWAP Strategy: Buy when price crosses above VWAP and sell when price crosses below VWAP
     
@@ -411,7 +375,7 @@ def vwap_strategy(df, symbol, period=VWAP_PERIOD):
             "indicators": {"price": current_close, "vwap": current_vwap}
         }
 
-def support_resistance_strategy(df, symbol, period=SR_PERIOD, threshold=SR_THRESHOLD):
+def support_resistance_strategy(df, symbol, period, threshold):
     """
     Support and Resistance Strategy:
     Buy when price bounces off support level and sell when price rejects from resistance level
