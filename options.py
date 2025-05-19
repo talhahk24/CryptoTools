@@ -1,6 +1,11 @@
 import enum
 
 
+class StrategyOptions(str, enum.Enum):
+    RSI = "RSI"
+class DataTypesOptions(str, enum.Enum):
+    TRADE = "trade"
+    KLINE = "kline"
 
 class ExchangeOptions(str, enum.Enum):
     BINANCE = "Binance"
@@ -41,3 +46,5 @@ class SymbolOptions(str, enum.Enum):
     YFI_USDT = "YFI/USDT"
     FIL_USDT = "FIL/USDT"
 
+if __name__ == "__main__":
+    print(ExchangeOptions.BINANCE)

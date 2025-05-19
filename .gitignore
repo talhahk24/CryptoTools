@@ -1,3 +1,9 @@
 .idea/
 .venv/
 __pycache__/
+dump.rdb
+dump.rdb~
+dump.aof
+appendonly.aof
+*.pyc
+*.pyo

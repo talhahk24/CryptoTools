@@ -3,6 +3,7 @@ import websockets
 import ssl
 import certifi
 import json
+from typing import Any
 
 import options
 
@@ -24,31 +25,30 @@ async def retry_connection(uri, ssl_contxt):
             websocket = await websockets.connect(uri, ssl=ssl_contxt)
             return websocket
         except Exception as e:
-            #log
+            #--------log
             await asyncio.sleep(5)
 
-async def start_websocket_connection(exchange:options.ExchangeOptions, live_exchange_ws:set[options.ExchangeOptions], ssl_contxt:ssl.SSLContext,
-                                     response_queue:asyncio.Queue, shutdown_event:asyncio.Event):
+async def start_websocket_connection(exchange:options.ExchangeOptions, live_exchange_ws:set[options.ExchangeOptions],
+                                     ssl_contxt:ssl.SSLContext, response_queue:asyncio.Queue,
+                                     shutdown_event:asyncio.Event):
     uri = EXCHANGE_WEBSOCKET_URIS[exchange]
     websocket = await websockets.connect(uri, ssl=ssl_contxt)
 
     async def listener():
         while not shutdown_event.is_set():
+            nonlocal websocket
             try:
                 response = await websocket.recv()
-                parsed_data = json.loads(response)
-                await response_queue.put(parsed_data)
-                print(parsed_data)
+                parsed_data:dict[str,Any] = parse_json(response)
+                # --------data validation
+                if parsed_data:
+                    await response_queue.put(parsed_data)
 
-
-            except json.JSONDecodeError:
-                #log
-                continue
             except websockets.ConnectionClosed:
                 while not shutdown_event.is_set():
                     websocket = await retry_connection(uri, ssl_contxt)
             except Exception as e:
-                #log
+                #--------log
                 await asyncio.sleep(1)
 
     live_exchange_ws.add(exchange)
@@ -91,6 +91,7 @@ async def main():
     await add_subscription(
         websocket, active_subscriptions,options.ExchangeOptions.BINANCE,
         options.SymbolOptions.ETH_USDT, options.TimeFramesOptions.ONE_SECOND)
+
 
     await end_main.wait()
     await websocket.close()

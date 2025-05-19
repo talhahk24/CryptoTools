@@ -1,19 +1,32 @@
 files:
 - api.py
   - endpoints
+    - (1% completed, work in progress)
 - ws_connector.py
   - websocket connection to exchanges, using CCXT (for ease and fast prototyping)
-- models.py
-  - pydantic models for endpoints
+    - connection drops resub logic **needs work**
+    - only binance supported currently
+    - logging needs work
+- pydantic_models.py
+  - models for endpoints
+    - **needs work**
 - options.py
   - enum classes for pydantic models
 - strategies.py
   - sample strategies (RSI, MACD, BolingerBands)
+    - strats only RSI coded, other indicator strats should be relatively easy to add
+    - ML strats are not ideal (**need** to think how transformation stage can be made to support them naturally)
   - Users may add their own strat here
-- workers.py
+- subscribers.py
   - consumers from redis streams
     - strategy workers
     - dashboard workers
+      - **needs work**
     - database/flatfile workers
 - producers.py
   - ws connector producers to redis streams
+- redis_client.py
+  - redis client wrapper
+- main(temp_test).py
+  - temporary app orchestrator and startup to check logic and data flow, will be replaced with fastapi app in future
+- 
