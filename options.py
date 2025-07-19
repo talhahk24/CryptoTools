@@ -1,8 +1,12 @@
 import enum
 
+class ConsumerOptions(str, enum.Enum):
+    STRATEGY = "strategy"
+    DASHBOARD = "dashboard"
 
 class StrategyOptions(str, enum.Enum):
     RSI = "RSI"
+
 class DataTypesOptions(str, enum.Enum):
     TRADE = "trade"
     KLINE = "kline"
