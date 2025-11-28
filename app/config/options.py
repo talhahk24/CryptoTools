@@ -1,19 +1,24 @@
+"""Enumerations for pipeline configuration and naming."""
 import enum
+
 
 class ConsumerOptions(str, enum.Enum):
     STRATEGY = "strategy"
     DASHBOARD = "dashboard"
 
+
 class StrategyOptions(str, enum.Enum):
     RSI = "RSI"
+
 
 class DataTypesOptions(str, enum.Enum):
     TRADE = "trade"
     KLINE = "kline"
 
+
 class ExchangeOptions(str, enum.Enum):
     BINANCE = "Binance"
-    # broski add the uri to EXCHANGE_WEBSOCKET_URIS in ws_connector.py if you add more exchanges
+
 
 class TimeFramesOptions(str, enum.Enum):
     ONE_SECOND = "1s"
@@ -28,6 +33,7 @@ class TimeFramesOptions(str, enum.Enum):
     ONE_DAY = "1d"
     ONE_WEEK = "1w"
     ONE_MONTH = "1M"
+
 
 class SymbolOptions(str, enum.Enum):
     BTC_USDT = "BTC/USDT"
@@ -49,6 +55,3 @@ class SymbolOptions(str, enum.Enum):
     COMP_USDT = "COMP/USDT"
     YFI_USDT = "YFI/USDT"
     FIL_USDT = "FIL/USDT"
-
-if __name__ == "__main__":
-    print(ExchangeOptions.BINANCE)

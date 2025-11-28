@@ -1,7 +1,8 @@
+"""Pydantic models for Binance websocket payloads."""
 from pydantic import BaseModel, Field
 import typing
 
-#Models for websocket responses and Redis storage
+
 class BinanceTradeData(BaseModel):
     event_type: str = Field(..., alias="e", description="Event type")
     event_time: int = Field(..., alias="E", description="Event time")
@@ -12,12 +13,6 @@ class BinanceTradeData(BaseModel):
     trade_time: int = Field(..., alias="T", description="Trade time")
     is_buyer_maker: bool = Field(..., alias="m", description="Is buyer the market maker?")
     ignore: bool = Field(..., alias="M", description="Ignore")
-
-    # @model_validator(mode="after")
-    # def validate_event_type(self):
-    #     if self.event_type != "trade":
-    #         raise ValueError(f"Invalid event type: {self.event_type}, expected 'trade'")
-    #     return self
 
 
 class BinanceKlineData(BaseModel):
@@ -39,19 +34,6 @@ class BinanceKlineData(BaseModel):
     taker_buy_quote: float = Field(..., alias="Q", description="Taker buy quote asset volume")
     ignore: str = Field(..., alias="B", description="Ignore")
 
-    # @model_validator(mode="after")
-    # def validate_numeric_string(self):
-    #     numeric_fields = [
-    #         "open_price", "close_price", "high_price", "low_price",
-    #         "base_volume", "quote_volume", "taker_buy_base", "taker_buy_quote"
-    #     ]
-    #     for field in numeric_fields:
-    #         value = getattr(self, field)
-    #         try:
-    #             float(value)
-    #         except ValueError:
-    #             raise ValueError(f"Field {field} must be a numeric string, got '{value}'")
-    #     return self
 
 class BinanceKlineEventData(BaseModel):
     event_type: str = Field(..., alias="e", description="Event type")
@@ -59,20 +41,9 @@ class BinanceKlineEventData(BaseModel):
     symbol: str = Field(..., alias="s", description="Symbol")
     kline: BinanceKlineData = Field(..., alias="k", description="Kline data")
 
-    # @model_validator(mode="after")
-    # def validate_event_type(self):
-    #     if self.event_type != "kline":
-    #         raise ValueError(f"Invalid event type: {self.event_type}, expected 'kline'")
-    #     return self
-
-
 
 class BinanceWebSocketMessage(BaseModel):
     stream: str = Field(..., description="Stream name (e.g., btcusdt@kline_1s)")
-    data: typing.Union[BinanceKlineEventData,BinanceTradeData] = Field(..., description="Event data(@kline)/Trade data(@trade)")
-
-
-#class DepthEvent(pydantic.BaseModel):
-
-
-#class SubscribeAck(pydantic.BaseModel):
+    data: typing.Union[BinanceKlineEventData, BinanceTradeData] = Field(
+        ..., description="Event data(@kline)/Trade data(@trade)"
+    )
